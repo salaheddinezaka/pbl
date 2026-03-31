@@ -1,0 +1,5 @@
+title: "Custom HTML Demo"
+urlPath: "demo/custom-html"
+htmlContent: '<main><h1>Custom HTML Page</h1><p>This page is rendered from htmlContent.</p><script>console.log("custom page script loaded")</script></main>'
+isProtected: false
+allowedEmails: []

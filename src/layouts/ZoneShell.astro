@@ -1,0 +1,41 @@
+---
+interface ZoneConfig {
+  zoneId: string;
+  testMode?: boolean;
+}
+
+interface ScriptConfig {
+  src: string;
+}
+
+interface Props {
+  title: string;
+  zones: ZoneConfig[];
+  customCss?: string;
+  extraScripts?: ScriptConfig[];
+}
+
+const { title, zones, customCss = "", extraScripts = [] } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {customCss ? <style set:html={customCss} /> : null}
+  </head>
+  <body>
+    {zones.map((zone) => (
+      <script
+        src="https://api.lincx.com/load"
+        data-zone-id={zone.zoneId}
+        data-test-mode={zone.testMode ? "" : undefined}
+      ></script>
+    ))}
+    {extraScripts.map((script) => (
+      <script src={script.src}></script>
+    ))}
+  </body>
+</html>

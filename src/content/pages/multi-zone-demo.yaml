@@ -1,0 +1,7 @@
+urlPath: demo/multi-zone
+htmlContent: >-
+  <main class="demo-note"><script src="https://api.lincx.com/load"
+  data-zone-id="oxfeli" data-test-mode></script></main>
+isProtected: true
+allowedEmails:
+  - zaka.salah.eddine@lincx.la
