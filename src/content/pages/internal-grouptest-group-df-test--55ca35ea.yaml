@@ -1,0 +1,9 @@
+title: '"4h3gvu" - Zone-G-DF - Demo World Network'
+urlPath: 'internal/grouptest/group-df-test'
+htmlContent: |-
+  <script src="https://deploy-preview-814--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="4h3gvu"></script>
+      </div>
+isProtected: false
+allowedEmails: []

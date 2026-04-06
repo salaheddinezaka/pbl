@@ -1,0 +1,19 @@
+title: 'Thank You Page - Bill Pay'
+urlPath: 'cs-bill-pay'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="g3gp8c"></script>
+      <!-- <script>
+        var isLoaded = false
+        window.addEventListener('load', function () {
+          const checkInterval = setInterval(function () {
+            const cssLoaded = document.querySelector('._lincxReRenderSection_')
+            if (cssLoaded && !isLoaded) {
+              isLoaded = true
+              clearInterval(checkInterval)
+              initiatControlOffer()
+            }
+          }, 100)
+        })
+      </script> -->
+isProtected: false
+allowedEmails: []

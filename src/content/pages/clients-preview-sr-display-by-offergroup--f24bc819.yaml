@@ -1,0 +1,10 @@
+title: 'SparksRevenue - Display by Offer Group'
+urlPath: 'clients/preview/sr/display-by-offergroup'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="yu0wwc"
+        data-test-mode="true"
+      ></script>
+isProtected: false
+allowedEmails: []

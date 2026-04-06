@@ -1,0 +1,13 @@
+title: 'Seniors'
+urlPath: 'clients/preview/sd/listicle-sdusa-01'
+htmlContent: |-
+  <script
+        type="text/javascript"
+        src="https://api.lincx.com/load"
+        data-zone-id="s22qm6"
+        data-s1=""
+        data-s2=""
+        data-s3=""
+      ></script>
+isProtected: false
+allowedEmails: []

@@ -1,0 +1,202 @@
+title: 'SR Modal 4 Idle Pre Mid Path 01'
+urlPath: 'clients/preview/sr/modal4idle-premidpath01'
+htmlContent: |-
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+  }
+  .offers {
+    max-width: 100rem;
+    margin: 0 auto;
+    @media screen and (min-width: 768px) {
+      padding: 0 1rem;
+    }
+  }
+  
+  h1.heading {
+    color: #000000;
+    font-weight: 600;
+    margin: 0px 0px 20px 0px;
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    @media screen and (min-width: 768px) {
+      font-size: 30px;
+    }
+  }
+  
+  h2.heading {
+    color: #053067;
+    font-weight: 600;
+    margin: 0px 0px 20px 0px;
+    text-align: center;
+    font-size: 24px;
+    @media screen and (min-width: 768px) {
+      font-size: 50px;
+    }
+  }
+  
+  .offers__list {
+    max-width: 100rem;
+    padding: 0px;
+    .offer {
+      margin: 40px auto 20px auto;
+      border-radius: 5px;
+      background: #ffffff;
+      border: 1px solid #053067;
+      width: calc(100% - 1.25rem);
+  
+      @media screen and (min-width: 768px) {
+        width: calc(58.33333% - 1.875rem);
+      }
+  
+      .offer__head {
+        padding: 5px 0px 5px 0px;
+        margin: -2px 0px 0px 0px !important;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        background: #053067;
+        text-align: center;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .offer__body {
+        margin: 0;
+        padding: 20px 20px;
+        text-align: center;
+      }
+  
+      .offer__text {
+        font-size: 18px;
+        color: #222222;
+        font-weight: 400;
+        margin: 20px 0px 30px 0px;
+        line-height: 28px;
+        text-align: left;
+        p {
+          display: inline-block;
+          margin-bottom: 10px;
+        }
+        @media screen and (min-width: 768px) {
+          font-size: 20px;
+          padding: 0px 20px 0px 0px;
+        }
+      }
+      .offer__buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-direction: column;
+        @media screen and (min-width: 768px) {
+          flex-direction: row;
+        }
+        .cta__button {
+          background-color: #008bec;
+        }
+        .decline__button {
+          background-color: #f04124;
+          border-color: #cf2a0e;
+        }
+        .lincx__button {
+          cursor: pointer;
+          color: #fff;
+          border-radius: 25px !important;
+          -webkit-transition: color 0.15sease-in, border-color 0.15sease-in;
+          transition: color 0.15sease-in, border-color 0.15sease-in;
+          font-weight: 600;
+          margin: 0px;
+          padding: 15px 20px 15px 20px;
+          font-size: 15px;
+          width: 100%;
+          text-decoration: none;
+          @media screen and (min-width: 768px) {
+            margin: 30px 0px 0px 0px;
+          }
+        }
+      }
+    }
+  }
+  
+  .hide {
+    display: none !important;
+  }
+  
+  .modal__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .close__button {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 15px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .close__button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  </style>
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="1x7ell"
+        data-test-mode
+      ></script>
+isProtected: false
+allowedEmails: []

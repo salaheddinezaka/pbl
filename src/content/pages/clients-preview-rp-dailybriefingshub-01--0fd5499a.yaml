@@ -1,0 +1,10 @@
+title: 'Daily Briefings Hub'
+urlPath: 'clients/preview/rp/dailybriefingshub-01'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="3ah48b"
+        data-test-mode
+      ></script>
+isProtected: false
+allowedEmails: []

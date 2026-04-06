@@ -1,0 +1,6 @@
+title: 'Zone: 7shme6'
+urlPath: 'clients/preview/twc/vsg-listicle'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="7shme6" data-test-mode></script>
+isProtected: false
+allowedEmails: []

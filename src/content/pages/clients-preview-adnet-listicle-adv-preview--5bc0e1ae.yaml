@@ -1,0 +1,6 @@
+title: 'Ref 02 Zone: bietyv'
+urlPath: 'clients/preview/adnet/listicle-adv-preview'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="bietyv" data-test-mode></script>
+isProtected: false
+allowedEmails: []

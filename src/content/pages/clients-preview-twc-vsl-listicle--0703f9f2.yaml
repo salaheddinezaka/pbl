@@ -1,0 +1,6 @@
+title: 'Zone: r60i7z'
+urlPath: 'clients/preview/twc/vsl-listicle'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="r60i7z" data-test-mode></script>
+isProtected: false
+allowedEmails: []

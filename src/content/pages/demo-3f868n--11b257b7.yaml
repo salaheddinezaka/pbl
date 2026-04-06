@@ -1,0 +1,9 @@
+title: 'ZONE = 3f868n'
+urlPath: 'demo/3f868n'
+htmlContent: |-
+  <div id="lincx-zone">
+        <script src="https://deploy-preview-812--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+        <script src="https://api.lincx.com/load" data-zone-id="3f868n" data-test-mode></script>
+      </div>
+isProtected: false
+allowedEmails: []

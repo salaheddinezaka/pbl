@@ -10,7 +10,8 @@
     "build": "astro build",
     "check": "astro check",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "migrate:old-dist": "node scripts/migrate-old-dist.mjs"
   },
   "dependencies": {
     "@astrojs/markdoc": "^1.0.3",

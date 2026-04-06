@@ -1,0 +1,9 @@
+title: '"nj0e7g" - Demo World Network'
+urlPath: 'internal/grouptest1'
+htmlContent: |-
+  <script src="https://lincx-controls.lincx.la/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="nj0e7g"></script>
+      </div>
+isProtected: false
+allowedEmails: []

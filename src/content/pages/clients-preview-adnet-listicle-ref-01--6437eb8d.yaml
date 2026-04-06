@@ -1,0 +1,6 @@
+title: 'Ref 01 Zone: so4ieh'
+urlPath: 'clients/preview/adnet/listicle-ref-01'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="so4ieh" data-test-mode></script>
+isProtected: false
+allowedEmails: []

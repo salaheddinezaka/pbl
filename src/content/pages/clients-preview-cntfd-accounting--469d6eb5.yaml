@@ -1,0 +1,16 @@
+title: 'Centerfield Media - Accounting'
+urlPath: 'clients/preview/cntfd/accounting'
+htmlContent: |-
+  <div>
+        <script
+          type="text/javascript"
+          src="https://api.lincx.com/load"
+          data-zone-id="7dfaat"
+          data-s1=""
+          data-s2=""
+          data-s3=""
+          data-test-mode
+        ></script>
+      </div>
+isProtected: false
+allowedEmails: []

@@ -1,0 +1,6 @@
+title: 'Ref 03 Zone: i82olb'
+urlPath: 'clients/preview/adnet/listicle-demo'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="i82olb" data-test-mode></script>
+isProtected: false
+allowedEmails: []

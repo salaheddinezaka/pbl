@@ -1,0 +1,9 @@
+title: '"9iee0v" - Zone-G-FF-B - Demo World Network'
+urlPath: 'internal/grouptest/group-ff-b-test'
+htmlContent: |-
+  <script src="https://deploy-preview-814--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="9iee0v"></script>
+      </div>
+isProtected: false
+allowedEmails: []

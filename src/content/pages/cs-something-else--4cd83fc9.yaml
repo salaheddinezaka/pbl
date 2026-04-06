@@ -1,0 +1,6 @@
+title: 'Thank You Page - Topic Selection'
+urlPath: 'cs-something-else'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="bdboqz"></script>
+isProtected: false
+allowedEmails: []

@@ -1,0 +1,6 @@
+title: 'Zone: o7dtop'
+urlPath: 'clients/preview/sc/sdb-listicle'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="o7dtop" data-test-mode></script>
+isProtected: false
+allowedEmails: []

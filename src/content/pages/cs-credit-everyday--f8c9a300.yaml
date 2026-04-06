@@ -1,0 +1,6 @@
+title: 'Thank You Page - Topic Selection'
+urlPath: 'cs-credit-everyday'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="vcexdh"></script>
+isProtected: false
+allowedEmails: []

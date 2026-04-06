@@ -1,0 +1,6 @@
+title: 'Single Page Form'
+urlPath: 'demo/single-page-form'
+htmlContent: |-
+  <script src='https://api.lincx.com/load' data-zone-id='we8wbv' data-test-mode></script>
+isProtected: false
+allowedEmails: []

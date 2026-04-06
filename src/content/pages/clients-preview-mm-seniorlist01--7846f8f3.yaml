@@ -1,0 +1,10 @@
+title: 'Momentum Max Listicle'
+urlPath: 'clients/preview/mm/seniorlist01'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="802et8"
+        data-test-mode
+      ></script>
+isProtected: false
+allowedEmails: []

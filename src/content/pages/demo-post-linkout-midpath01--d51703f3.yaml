@@ -1,0 +1,10 @@
+title: 'Post Linkout Midpath 01'
+urlPath: 'demo/post-linkout-midpath01'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="2q7j5b"
+        data-test-mode
+      ></script>
+isProtected: false
+allowedEmails: []

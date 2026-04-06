@@ -1,0 +1,6 @@
+title: 'Lincx Card Test'
+urlPath: 'clients/preview/refi/new-look-Jan26'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="kdeaz9" data-test-mode></script>
+isProtected: false
+allowedEmails: []

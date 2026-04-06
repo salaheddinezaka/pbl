@@ -1,0 +1,6 @@
+title: 'Kyber Direct Listing'
+urlPath: 'clients/preview/kd/listing-ref-10BM-01'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="xfcuuo" data-test-mode></script>
+isProtected: false
+allowedEmails: []

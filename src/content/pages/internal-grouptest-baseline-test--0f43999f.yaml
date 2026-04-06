@@ -1,0 +1,9 @@
+title: '"mw4ktu" - Zone-B0 - Demo World Network'
+urlPath: 'internal/grouptest/baseline-test'
+htmlContent: |-
+  <script src="https://deploy-preview-814--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="mw4ktu"></script>
+      </div>
+isProtected: false
+allowedEmails: []

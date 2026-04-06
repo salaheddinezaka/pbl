@@ -1,0 +1,6 @@
+title: 'Thank You Page - Topic Selection'
+urlPath: 'cs-credit-emergency'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="c8ekv6"></script>
+isProtected: false
+allowedEmails: []

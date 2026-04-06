@@ -1,0 +1,9 @@
+title: '"31eifr" - Zone-G-DD - Demo World Network'
+urlPath: 'internal/grouptest/group-dd-test'
+htmlContent: |-
+  <script src="https://deploy-preview-814--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="31eifr"></script>
+      </div>
+isProtected: false
+allowedEmails: []

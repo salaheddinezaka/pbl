@@ -1,0 +1,10 @@
+title: 'Bulldog Media Group - Credit Emergency'
+urlPath: 'clients/preview/bmg/credit-emergency'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="0r2hzb"
+        data-test-mode="true"
+      ></script>
+isProtected: false
+allowedEmails: []

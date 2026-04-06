@@ -1,0 +1,493 @@
+title: '6 Ways To Supplement Your Social Security This Month'
+urlPath: 'dev/smh/listicle'
+htmlContent: |-
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 0;
+    counter-reset: listicle-counter;
+  }
+  .listicle {
+    width: 100%;
+  }
+  .header {
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(206, 206, 214, 0.6);
+    position: relative;
+    z-index: 30;
+    @media screen and (min-width: 1024px) {
+      height: 84px;
+    }
+  }
+  .header__top {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.75rem 1.5rem;
+    z-index: 40;
+    height: 51px;
+    position: relative;
+    @media screen and (min-width: 1024px) {
+      padding: 1.25rem 1.25rem 0.875rem;
+    }
+  }
+  .header__logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      flex-shrink: 0;
+      img {
+        height: 26px;
+        max-width: 100%;
+        @media screen and (min-width: 1024px) {
+          height: 2rem;
+        }
+      }
+    }
+  }
+  .content {
+    max-width: 1140px;
+    margin: 0 auto 3rem;
+  }
+  .popup-advertiser-disclosure {
+    padding: 0 1.5rem;
+    a {
+      cursor: pointer;
+      text-decoration-line: none;
+      color: rgb(0 73 184 / 1);
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      z-index: 20;
+      position: relative;
+    }
+  }
+  .headline__container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-top: 0.5rem;
+    max-width: 56rem;
+    margin-right: auto;
+    @media screen and (min-width: 1024px) {
+      margin-top: 1rem;
+    }
+    h1 {
+      font-family: Inter, sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 120%;
+      margin-bottom: 0.5rem;
+      color: rgb(10 8 50 / 1);
+      @media screen and (min-width: 1024px) {
+        font-size: 40px;
+        margin-bottom: 0.75rem;
+      }
+    }
+    h2 {
+      font-size: 1.5rem;
+      line-height: 136%;
+      font-family: Inter, sans-serif;
+      color: rgb(10 8 50 / 1);
+      @media screen and (min-width: 1024px) {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+      }
+      &:not([data-content='']) {
+        counter-increment: listicle-counter;
+      }
+      &::before {
+        content: counter(listicle-counter) '.';
+      }
+    }
+  }
+  .hero__img {
+    margin-top: 1rem;
+    box-sizing: border-box;
+    @media screen and (min-width: 1024px) {
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+    }
+    img {
+      max-width: 100%;
+      width: 100%;
+      max-height: 138px;
+      height: auto;
+      object-fit: cover;
+      @media screen and (min-width: 1024px) {
+        max-height: 380px;
+      }
+    }
+    &[data-heading='']:not([data-content='']) {
+      margin-left: 1.5rem;
+      margin-right: 1.5rem;
+      border-radius: 0.75rem;
+      border-width: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 400px;
+      position: relative;
+      border: 14px solid rgb(255 255 255 / 1);
+      background-color: rgb(247 247 247 / 1);
+      filter: drop-shadow(0 10px 8px #0000000a) drop-shadow(0 4px 15px #0000001a);
+      img {
+        height: auto;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        max-height: inherit;
+        max-width: 100%;
+        padding: 0.5rem;
+        object-fit: contain;
+        vertical-align: top;
+      }
+    }
+  }
+  .publish__info {
+    font-family: Open Sans, sans-serif;
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    @media screen and (min-width: 1024px) {
+      margin-top: 1.5rem;
+    }
+    .publish__info__separator {
+      color: rgb(209 213 219 / 1);
+    }
+  }
+  .listicle__content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-family: Open Sans, sans-serif;
+    color: rgb(10 8 50 / 1);
+    p {
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+  }
+  
+  .listicle__cta {
+    text-align: center;
+    a {
+      display: inline-block;
+      background: #ff6b00;
+      color: #fff;
+      padding: 12px 20px;
+      margin: 10px auto;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+  }
+  
+  [data-content=''] {
+    display: none;
+  }
+  
+  /* Disclosure Modal Styles */
+  .disclosure-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .disclosure-modal__content {
+    background: #fff;
+    max-width: 600px;
+    width: 90%;
+    margin: auto;
+    padding: 2.5rem;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .disclosure-modal__close {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    background-color: rgb(11 162 255 / 1);
+    border: none;
+    font-size: 2.25rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  
+  .disclosure-modal__title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 1.5rem 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .disclosure-section {
+    margin-bottom: 2rem;
+  }
+  
+  .disclosure-section:first-of-type::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #7dd3fc;
+    margin: 1.5rem 0;
+  }
+  
+  .disclosure-section__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 1rem 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .disclosure-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0 0 1rem 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .disclosure-section p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .disclosure-modal__close-btn {
+    align-items: center;
+    border-radius: 0.25rem;
+    display: flex;
+    height: 2.5rem;
+    margin: 1.25rem auto 0;
+    background-color: rgb(11 162 255 / 1);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-transform: none;
+    color: rgb(255 255 255 / 1);
+    border: none;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .disclosure-modal__content {
+      padding: 2rem 1.5rem;
+      margin: 1rem;
+      width: calc(100% - 2rem);
+    }
+  
+    .disclosure-modal__title {
+      font-size: 1.25rem;
+    }
+  
+    .disclosure-section__title {
+      font-size: 1.125rem;
+    }
+  }
+  
+  </style>
+  <div class="listicle">
+        <header class="header">
+          <div class="header__top">
+            <div class="header__logo">
+              <a>
+                <img
+                  id="fbz-header-logo"
+                  src="//cdn.financebuzz.com/static-assets/statics-23487/svg/financebuzz-logo.svg"
+                  alt="FinanceBuzz"
+                  fetchpriority="low"
+                />
+              </a>
+            </div>
+          </div>
+        </header>
+        <div class="content">
+          <div class="popup-advertiser-disclosure">
+            <a href="#" id="disclosure-link">Advertiser and Editorial Disclosures</a>
+          </div>
+          <div id="disclosure-modal" class="disclosure-modal">
+            <div class="disclosure-modal__content">
+              <button id="close-disclosure-modal" class="disclosure-modal__close">&times;</button>
+              <h2 class="disclosure-modal__title">Advertiser and Editorial Disclosures</h2>
+              
+              <div class="disclosure-section">
+                <h3 class="disclosure-section__title">Advertiser Disclosure</h3>
+                <p>FinanceBuzz is an independent, advertising-supported website. We receive compensation from third-party advertisers for products and services mentioned on this site.</p>
+                <p>FinanceBuzz does not include all financial or credit offers that may be available to you. Information is accurate as of the publishing date.</p>
+                <p>The credit card offers that appear on this site are from companies from which FinanceBuzz receives compensation such as banks or CardRatings.com.</p>
+              </div>
+              
+              <div class="disclosure-section">
+                <h3 class="disclosure-section__title">Editorial Policy</h3>
+                <p>The FinanceBuzz editorial team strives to provide accurate, in-depth information and reviews to help you, our reader, make financial decisions with confidence. Here's what you can expect from us:</p>
+              </div>
+              
+              <button class="disclosure-modal__close-btn">Close</button>
+            </div>
+          </div>
+          <script>
+            const disclosureLink = document.getElementById('disclosure-link');
+            const disclosureModal = document.getElementById('disclosure-modal');
+            const closeDisclosureModal = document.getElementById('close-disclosure-modal');
+            const closeDisclosureBtn = document.querySelector('.disclosure-modal__close-btn');
+  
+            disclosureLink.addEventListener('click', function(e) {
+              e.preventDefault();
+              disclosureModal.style.display = 'flex';
+            });
+  
+            closeDisclosureModal.addEventListener('click', function() {
+              disclosureModal.style.display = 'none';
+            });
+  
+            closeDisclosureBtn.addEventListener('click', function() {
+              disclosureModal.style.display = 'none';
+            });
+  
+            // Optional: close modal when clicking outside the modal content
+            disclosureModal.addEventListener('click', function(e) {
+              if (e.target === disclosureModal) {
+                disclosureModal.style.display = 'none';
+              }
+            });
+          </script>
+          <div class="listicle__item">
+            <div class="headline__container">
+              <h1 class="article__headline">
+                6 Ways To Supplement Your Social Security This Month
+              </h1>
+            </div>
+            <div
+              class="hero__img"
+              data-heading="6 Ways To Supplement Your Social Security This Month"
+            >
+              <img
+                src="https://cdn.financebuzz.com/fit-in/480x0/filters:quality(100):format(webp)/images/2025/01/28/adobestock_628402894_1.jpeg"
+                alt=""
+                fetchpriority="high"
+              />
+            </div>
+            <div class="publish__info" data-content="FinanceBuzz Editors">
+              <div>
+                Last updated <span class="publish__date">Aug. 12, 2025</span>
+              </div>
+              <span class="publish__info__separator">|</span>
+              <div>
+                By:
+                <span class="author__name"
+                  ><strong>FinanceBuzz Editors</strong>
+                </span>
+              </div>
+            </div>
+            <div class="listicle__content">
+              <p>
+                You could be missing out on $1,000s, and you might not even
+                realize it.
+              </p>
+              <p>
+                Sure, you might know about some senior discounts at diners or
+                retail stores. But what you might not know is there are a number
+                of lesser-known programs that can help slash bills, reduce
+                insurance costs, and unlock powerful financial perks — right now.
+              </p>
+              <p>
+                We pulled together some of the most valuable money moves for 2025.
+                Cut expenses, boost your retirement, and recession-proof your
+                finances. But act fast — we don't know how long these programs
+                will last!
+              </p>
+            </div>
+          </div>
+          <div class="listicle__item">
+            <div class="headline__container">
+              <h1 class="article__headline" data-content=""></h1>
+              <h2
+                class="article__subheadline"
+                data-content="You could be missing out on $1,000s, and you might not even
+              realize it."
+              >
+                You could be missing out on $1,000s, and you might not even
+                realize it.
+              </h2>
+            </div>
+            <div
+              class="hero__img"
+              data-content="https://cdn.financebuzz.com/filters:quality(100)/images/2025/03/07/3.png"
+              data-heading=""
+            >
+              <img
+                src="https://cdn.financebuzz.com/filters:quality(100)/images/2025/03/07/3.png"
+                alt=""
+                fetchpriority="high"
+              />
+            </div>
+            <div class="publish__info" data-content="">
+              <div>
+                Last updated <span class="publish__date">Aug. 12, 2025</span>
+              </div>
+              <span class="publish__info__separator">|</span>
+              <div>
+                By:
+                <span class="author__name"
+                  ><strong>FinanceBuzz Editors</strong>
+                </span>
+              </div>
+            </div>
+            <div class="listicle__content">
+              <p>
+                You could be missing out on $1,000s, and you might not even
+                realize it.
+              </p>
+              <p>
+                Sure, you might know about some senior discounts at diners or
+                retail stores. But what you might not know is there are a number
+                of lesser-known programs that can help slash bills, reduce
+                insurance costs, and unlock powerful financial perks — right now.
+              </p>
+              <p>
+                We pulled together some of the most valuable money moves for 2025.
+                Cut expenses, boost your retirement, and recession-proof your
+                finances. But act fast — we don't know how long these programs
+                will last!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+isProtected: false
+allowedEmails: []

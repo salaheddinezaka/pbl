@@ -1,0 +1,6 @@
+title: 'Zone: it90mj'
+urlPath: 'clients/preview/sc/ssn-listicle'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="it90mj" data-test-mode></script>
+isProtected: false
+allowedEmails: []

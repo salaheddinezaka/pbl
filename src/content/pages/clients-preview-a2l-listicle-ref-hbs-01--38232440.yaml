@@ -1,0 +1,6 @@
+title: 'Ad2lynx Listicle'
+urlPath: 'clients/preview/a2l/listicle-ref-hbs-01'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="1cbhjl" data-test-mode></script>
+isProtected: false
+allowedEmails: []

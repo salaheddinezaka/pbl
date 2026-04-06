@@ -1,0 +1,9 @@
+title: '"bia6rq" - Zone-G-FD-C - Demo World Network'
+urlPath: 'internal/grouptest/group-fd-c-test'
+htmlContent: |-
+  <script src="https://deploy-preview-814--lincx-controls.netlify.app/lincxUtils/lincxUtils.js"></script>
+      <div id="lincx-zone">
+        <script src="https://api.lincx.com/load" data-zone-id="bia6rq"></script>
+      </div>
+isProtected: false
+allowedEmails: []

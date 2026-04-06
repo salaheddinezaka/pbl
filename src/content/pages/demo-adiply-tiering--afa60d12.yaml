@@ -1,0 +1,6 @@
+title: 'Tiering Adiply'
+urlPath: 'demo/adiply/tiering'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="3wf9pf" data-test-mode></script>
+isProtected: false
+allowedEmails: []

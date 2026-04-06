@@ -1,0 +1,116 @@
+title: 'Liz Buys Houses'
+urlPath: 'clients/preview/smh/midpath-01'
+htmlContent: |-
+  <style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    line-height: 1.6;
+    font-family: 'Mukta', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #2b2c28;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .lincx__section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+      url(https://www.lizbuyshouses.net/wp-content/uploads/2024/10/74.png);
+    background-size: auto, cover;
+    text-align: center;
+    border-top-width: 1px;
+    border-top-color: rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    min-height: 100vh;
+    background-attachment: scroll;
+    z-index: 1;
+    background-repeat: repeat;
+    background-position: 0% 50%;
+  }
+  
+  .lincx__wrapper {
+    padding: 75px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1120px;
+    margin: 0 auto;
+    height: 100%;
+  }
+  .logo__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    bottom: 25px;
+    justify-content: center;
+    .logo__image {
+      width: 10%;
+      margin-right: 31px;
+    }
+    .logo__text {
+      width: 15%;
+      height: 20%;
+    }
+  }
+  
+  .lincx__title {
+    margin-bottom: 0px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 28px;
+    text-shadow: 2px 2px 2px #000000;
+    line-height: 1.1;
+    margin-top: 0px;
+    @media (min-width: 768px) {
+      font-size: 75px;
+    }
+  }
+  
+  .lincx__description {
+    font-size: 22px;
+    font-weight: 400;
+    text-shadow: 2px 2px 2px #000000;
+    font-weight: bolder;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  }
+  
+  </style>
+  <div class="lincx__section">
+        <div class="lincx__wrapper">
+          <div class="logo__container">
+            <img
+              src="https://www.lizbuyshouses.net/wp-content/uploads/2024/10/Artboard-1-copy.png"
+              alt="Liz Buys Houses Logo"
+              class="logo__image"
+            />
+            <img
+              src="https://www.lizbuyshouses.net/wp-content/uploads/2024/07/white-cropped.png"
+              alt="Liz Buys Houses Logo Text"
+              class="logo__text"
+            />
+          </div>
+          <h1 class="lincx__title">Get Cash For Your House!</h1>
+          <p class="lincx__description">
+            Fill Out The Form To Get Started On Your FREE CASH OFFER Today! No
+            Repairs. No Agents. No Fees
+          </p>
+  
+          <script
+            src="https://api.lincx.com/load"
+            data-zone-id="9ahw5a"
+            data-test-mode
+          ></script>
+        </div>
+      </div>
+isProtected: false
+allowedEmails: []

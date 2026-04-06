@@ -1,0 +1,10 @@
+title: 'Bulldog Media Group - Build Credit Score'
+urlPath: 'clients/preview/bmg/build-credit-score'
+htmlContent: |-
+  <script
+        src="https://api.lincx.com/load"
+        data-zone-id="7b6r7s"
+        data-test-mode="true"
+      ></script>
+isProtected: false
+allowedEmails: []

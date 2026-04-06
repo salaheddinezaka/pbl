@@ -1,0 +1,16 @@
+title: 'Centerfield Media - Business Essentials'
+urlPath: 'clients/preview/cntfd/business-essentials'
+htmlContent: |-
+  <div>
+        <script
+          type="text/javascript"
+          src="https://api.lincx.com/load"
+          data-zone-id="9i3gbs"
+          data-s1=""
+          data-s2=""
+          data-s3=""
+          data-test-mode
+        ></script>
+      </div>
+isProtected: false
+allowedEmails: []

@@ -1,0 +1,20 @@
+title: 'Thank You Page - Topic Selection'
+urlPath: 'cs-end-point-desintation'
+htmlContent: |-
+  <script src="https://api.lincx.com/load" data-zone-id="pq6j7b"></script>
+  
+      <!-- <script>
+        var isLoaded = false
+        window.addEventListener('load', function () {
+          const checkInterval = setInterval(function () {
+            const cssLoaded = document.querySelector('._lincxReRenderSection_')
+            if (cssLoaded && !isLoaded) {
+              isLoaded = true
+              clearInterval(checkInterval)
+              initiatControlOffer()
+            }
+          }, 100)
+        })
+      </script> -->
+isProtected: false
+allowedEmails: []
