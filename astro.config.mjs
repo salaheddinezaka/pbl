@@ -9,6 +9,9 @@ import keystatic from '@keystatic/astro';
 
 // https://astro.build/config
 export default defineConfig({
+  // Keystatic GitHub mode needs SSR API routes (`/api/keystatic/*`) in dev and production.
+  output: 'server',
+
   adapter: netlify({
     middlewareMode: 'edge'
   }),
