@@ -102,7 +102,7 @@ Use these to confirm nothing critical was skipped.
 - **Framework**: [Astro 6](https://astro.build/) with **server output** (`output: 'server'`) in [`astro.config.mjs`](astro.config.mjs).
 - **Hosting**: [`@astrojs/netlify`](https://docs.astro.build/en/guides/integrations-guide/netlify/) adapter in **middleware (edge)** mode so routes run on Netlify with `getCollection` at request time.
 - **CMS**: [Decap CMS](https://decapcms.org/) 3.1.2 loaded from `unpkg` on [`src/pages/admin.astro`](src/pages/admin.astro), config URL [`/admin/config.yml`](public/admin/config.yml).  
-  **Preview**: [`public/admin/decap-pages-preview.js`](public/admin/decap-pages-preview.js) registers an iframe preview (`CMS_MANUAL_INIT` so scripts run before init).
+  **Preview + URL field**: [`public/admin/decap-pages-preview.js`](public/admin/decap-pages-preview.js) registers an iframe preview (`CMS_MANUAL_INIT` so scripts run before init) and a compact **URL Path** line: small preview link (new tab) + icon to copy the full URL (domain = wherever `/admin` is opened).
 - **Content**: YAML files under `src/content/pages/`, schema in [`src/content.config.ts`](src/content.config.ts).
 - **Rendering**: [`src/components/CmsPageDocument.astro`](src/components/CmsPageDocument.astro) outputs a full HTML document, injecting `htmlContent` and optional `headHtml` via `set:html`.
 

@@ -27,8 +27,8 @@ collections:
         widget: string
       - label: URL Path
         name: urlPath
-        widget: string
-        hint: "Example: clients/preview/twc/vsg-listicle or / for home"
+        widget: siteUrlPath
+        hint: "e.g. clients/preview/twc/vsg-listicle or / — link below opens in a new tab."
       - label: HTML Content
         name: htmlContent
         widget: text
