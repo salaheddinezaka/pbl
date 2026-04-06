@@ -11,6 +11,14 @@
     <title>Content Manager</title>
   </head>
   <body>
-    <script is:inline src="https://unpkg.com/decap-cms@3.1.2/dist/decap-cms.js"></script>
+    <!-- Manual init: register iframe preview before CMS starts (so scripts run in preview). -->
+    <script is:inline>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script
+      is:inline
+      src="https://unpkg.com/decap-cms@3.1.2/dist/decap-cms.js"
+    />
+    <script is:inline src="/admin/decap-pages-preview.js"></script>
   </body>
 </html>
