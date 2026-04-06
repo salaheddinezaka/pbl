@@ -13,5 +13,22 @@ export default defineConfig({
     middlewareMode: 'edge'
   }),
 
-  integrations: [react(), markdoc(), keystatic()]
+  integrations: [react(), markdoc(), keystatic()],
+
+  // Keystatic + Vite 7: avoid stale optimize-dep 504s in the browser and broken
+  // SSR module resolution for keystatic.config right after dev-server restarts.
+  vite: {
+    optimizeDeps: {
+      ignoreOutdatedRequests: true,
+      include: [
+        '@keystatic/core',
+        '@keystatic/core/ui',
+        '@keystatic/astro/ui',
+        '@keystatic/astro/api',
+      ],
+    },
+    ssr: {
+      noExternal: ['@keystatic/core', '@keystatic/astro'],
+    },
+  },
 });
