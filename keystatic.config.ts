@@ -26,6 +26,12 @@ export default config({
           multiline: true,
           validation: { isRequired: true },
         }),
+        headHtml: fields.text({
+          label: "Head HTML (optional)",
+          description:
+            "Raw HTML for <head>: <link>, <script>, <meta>, <style>, etc.",
+          multiline: true,
+        }),
         isProtected: fields.checkbox({
           label: "Email Protected",
           defaultValue: false,

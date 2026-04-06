@@ -2,6 +2,7 @@ export interface PageEntry {
   title: string;
   urlPath: string;
   htmlContent: string;
+  headHtml?: string;
   isProtected?: boolean;
   allowedEmails?: string[];
 }
