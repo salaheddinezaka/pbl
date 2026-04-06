@@ -3,8 +3,8 @@ export interface PageEntry {
   urlPath: string;
   htmlContent: string;
   headHtml?: string;
-  isProtected?: boolean;
-  allowedEmails?: string[];
+  isProtected: boolean;
+  allowedEmails: string[];
 }
 
 export function normalizePath(path: string): string {

@@ -1,0 +1,14 @@
+# Decap GitHub backend: in Netlify → Site configuration → Access & security → OAuth,
+# enable the GitHub provider (Client ID + secret from a GitHub OAuth App:
+# callback URL https://api.netlify.com/auth/done). See https://decapcms.org/docs/github-backend/
+# Configure build / publish in the Netlify UI if not already set for this Astro SSR site.
+
+[[redirects]]
+  from = "/keystatic"
+  to = "/admin"
+  status = 301
+
+[[redirects]]
+  from = "/keystatic/*"
+  to = "/admin"
+  status = 301

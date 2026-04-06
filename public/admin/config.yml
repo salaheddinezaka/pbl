@@ -1,0 +1,52 @@
+# Decap CMS — no secrets here.
+# Production: enable GitHub in Netlify → Site configuration → Access & security → OAuth,
+# with a GitHub OAuth App whose callback is https://api.netlify.com/auth/done
+# (see https://decapcms.org/docs/github-backend/ and Netlify “GitHub” provider setup).
+# Local: temporarily set local_backend: true under `backend` below (do not commit).
+backend:
+  name: github
+  repo: salaheddinezaka/pbl
+  branch: main
+
+local_backend: false
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: pages
+    label: Pages
+    folder: src/content/pages
+    extension: yaml
+    format: yaml
+    create: true
+    identifier_field: title
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: URL Path
+        name: urlPath
+        widget: string
+        hint: "Example: clients/preview/twc/vsg-listicle or / for home"
+      - label: HTML Content
+        name: htmlContent
+        widget: text
+        hint: Full HTML body; paste including script tags if needed.
+      - label: Head HTML (optional)
+        name: headHtml
+        widget: text
+        required: false
+        hint: Raw HTML for head — link, script, meta, style, etc.
+      - label: Email Protected
+        name: isProtected
+        widget: boolean
+        default: false
+      - label: Allowed Emails
+        name: allowedEmails
+        widget: list
+        required: false
+        field:
+          label: Email
+          name: email
+          widget: string

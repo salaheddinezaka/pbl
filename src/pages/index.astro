@@ -1,18 +1,23 @@
 ---
-import { createReader } from "@keystatic/core/reader";
+import { getCollection } from "astro:content";
 import CmsPageDocument from "../components/CmsPageDocument.astro";
 import {
   findPageForRequestPath,
   normalizePath,
   type PageEntry,
 } from "../lib/cms-pages";
-import keystaticConfig from "../../keystatic.config";
 
 export const prerender = false;
 
-const reader = createReader(process.cwd(), keystaticConfig);
-const pageEntries = await reader.collections.pages.all();
-const pages = pageEntries.map((entry) => entry.entry as PageEntry);
+const pageEntries = await getCollection("pages");
+const pages: PageEntry[] = pageEntries.map((entry) => ({
+  title: entry.data.title,
+  urlPath: entry.data.urlPath,
+  htmlContent: entry.data.htmlContent,
+  headHtml: entry.data.headHtml,
+  isProtected: entry.data.isProtected,
+  allowedEmails: entry.data.allowedEmails,
+}));
 
 const page = findPageForRequestPath(pages, normalizePath("/"));
 
