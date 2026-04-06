@@ -21,6 +21,8 @@ collections:
     format: yaml
     create: true
     identifier_field: title
+    # List + search: plain text (not a link). Global search scans file bodies, including urlPath in YAML.
+    summary: "{{title}} — {{urlPath}}"
     fields:
       - label: Title
         name: title
