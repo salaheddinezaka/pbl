@@ -46,6 +46,7 @@ collections:
         name: allowedEmails
         widget: list
         required: false
+        hint: "Required when Email Protected is on — addresses that may open this URL (plus Netlify Identity if enabled)."
         field:
           label: Email
           name: email

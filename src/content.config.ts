@@ -21,14 +21,25 @@ const allowedEmailsField = z
 
 const pages = defineCollection({
   loader: glob({ base: "./src/content/pages", pattern: "**/*.yaml" }),
-  schema: z.object({
-    title: z.string(),
-    urlPath: z.string(),
-    htmlContent: z.string(),
-    headHtml: z.string().optional(),
-    isProtected: z.boolean().optional().default(false),
-    allowedEmails: allowedEmailsField,
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      urlPath: z.string(),
+      htmlContent: z.string(),
+      headHtml: z.string().optional(),
+      isProtected: z.boolean().optional().default(false),
+      allowedEmails: allowedEmailsField,
+    })
+    .superRefine((data, ctx) => {
+      if (data.isProtected && data.allowedEmails.length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message:
+            "allowedEmails must contain at least one email when isProtected is true",
+          path: ["allowedEmails"],
+        });
+      }
+    }),
 });
 
 export const collections = { pages };

@@ -29,13 +29,14 @@ const { title, zones, customCss = "", extraScripts = [] } = Astro.props;
   <body>
     {zones.map((zone) => (
       <script
+        is:inline
         src="https://api.lincx.com/load"
         data-zone-id={zone.zoneId}
         data-test-mode={zone.testMode ? "" : undefined}
       ></script>
     ))}
     {extraScripts.map((script) => (
-      <script src={script.src}></script>
+      <script is:inline src={script.src}></script>
     ))}
   </body>
 </html>

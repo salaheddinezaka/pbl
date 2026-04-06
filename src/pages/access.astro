@@ -1,0 +1,165 @@
+---
+import manifest from "../generated/protected-pages.json";
+import { normalizePath } from "../lib/cms-pages";
+import { safeNextPath } from "../lib/access-gate";
+
+export const prerender = false;
+
+const rawNext = Astro.url.searchParams.get("next");
+const nextPath = safeNextPath(rawNext, Astro.url.origin);
+const key = nextPath
+  ? normalizePath(new URL(nextPath, Astro.url.origin).pathname)
+  : "";
+const man = manifest as Record<string, { allowedEmails: string[] }>;
+const validNext = Boolean(nextPath && man[key] != null);
+
+const identityUrl = import.meta.env.PUBLIC_NETLIFY_IDENTITY_URL ?? "";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page access</title>
+    <style>
+      :root {
+        font-family: system-ui, sans-serif;
+        line-height: 1.5;
+        color: #1a1a1a;
+        background: #e6e6e6;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+      }
+      .card {
+        background: #fff;
+        padding: 1.75rem 2rem;
+        border-radius: 8px;
+        max-width: 26rem;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      h1 {
+        font-size: 1.125rem;
+        margin: 0 0 0.75rem;
+      }
+      p {
+        margin: 0 0 1rem;
+        font-size: 0.9375rem;
+        color: #444;
+      }
+      label {
+        display: block;
+        font-size: 0.875rem;
+        margin-bottom: 0.35rem;
+      }
+      input[type="email"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.5rem 0.65rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      button {
+        margin-top: 1rem;
+        width: 100%;
+        padding: 0.55rem 1rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        background: #1a1a1a;
+        color: #fff;
+        cursor: pointer;
+      }
+      button.secondary {
+        margin-top: 0.5rem;
+        background: #fff;
+        color: #1a1a1a;
+        border: 1px solid #ccc;
+      }
+      .err {
+        color: #7a1a1a;
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      {
+        validNext ? (
+          <>
+            <h1>Enter your email</h1>
+            <p>
+              This page is restricted. Use the email address that was invited
+              for this URL, or sign in below if your team uses Netlify
+              Identity.
+            </p>
+            <form method="post" action="/api/access/verify">
+              <input type="hidden" name="next" value={nextPath!} />
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+              />
+              <button type="submit">Continue</button>
+            </form>
+            {identityUrl ? (
+              <>
+                <button type="button" class="secondary" id="netlify-login">
+                  Sign in (Netlify Identity)
+                </button>
+              </>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <h1>Invalid link</h1>
+            <p class="err">
+              This access link is missing or does not match a protected page.
+              Open the full URL you were sent, or ask an editor to check the
+              page configuration.
+            </p>
+          </>
+        )
+      }
+    </div>
+    {
+      validNext && identityUrl ? (
+        <script is:inline define:vars={{ identityUrl, nextPath }}>
+          (function () {
+            var url = identityUrl;
+            var target = nextPath;
+            function loadWidget() {
+              var btn = document.getElementById("netlify-login");
+              if (!btn) return;
+              var s = document.createElement("script");
+              s.src =
+                "https://identity.netlify.com/v1/netlify-identity-widget.js";
+              s.onload = function () {
+                if (!window.netlifyIdentity) return;
+                window.netlifyIdentity.init({ APIUrl: url });
+                window.netlifyIdentity.on("login", function () {
+                  window.location.href = target;
+                });
+                btn.addEventListener("click", function () {
+                  window.netlifyIdentity.open();
+                });
+              };
+              document.head.appendChild(s);
+            }
+            loadWidget();
+          })();
+        </script>
+      ) : null
+    }
+  </body>
+</html>

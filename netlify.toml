@@ -1,3 +1,6 @@
+# Protected routes: set ACCESS_COOKIE_SECRET in Netlify env (see README).
+# Optional: IDENTITY_JWT_SECRET + PUBLIC_NETLIFY_IDENTITY_URL for Netlify Identity.
+#
 # Decap GitHub backend: in Netlify → Site configuration → Access & security → OAuth,
 # enable the GitHub provider (Client ID + secret from a GitHub OAuth App:
 # callback URL https://api.netlify.com/auth/done). See https://decapcms.org/docs/github-backend/

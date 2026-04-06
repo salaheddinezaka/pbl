@@ -6,8 +6,8 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node scripts/generate-protected-manifest.mjs && astro dev",
+    "build": "node scripts/generate-protected-manifest.mjs && astro build",
     "check": "astro check",
     "preview": "astro preview",
     "astro": "astro",
@@ -15,7 +15,11 @@
     "verify:root-home": "node scripts/assert-single-root-home.mjs"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.8",
     "@astrojs/netlify": "^7.0.5",
-    "astro": "^6.1.2"
+    "astro": "^6.1.2",
+    "jose": "^6.2.2",
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.3"
   }
 }

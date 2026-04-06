@@ -129,6 +129,7 @@ flowchart LR
 - **All other paths**: [`src/pages/[...slug].astro`](src/pages/[...slug].astro) matches `slug` segments, normalizes them, and finds the matching `urlPath`.  
   Both routes use `export const prerender = false` so pages reflect the latest YAML after each deploy.
 - **Legacy URLs**: [`netlify.toml`](netlify.toml) redirects `/keystatic` and `/keystatic/*` to `/admin` (301).
+- **`/access`**: Email gate for protected pages (see below). Not part of the CMS `pages` collection.
 
 ### Content model (`pages` collection)
 
@@ -138,12 +139,24 @@ flowchart LR
 | `urlPath`       | Site path, e.g. `/` for home or `clients/preview/foo/bar` (no leading/trailing slash inconsistency—normalize to how the app resolves paths). |
 | `htmlContent`   | Full HTML for `<body>`; may include scripts. |
 | `headHtml`      | Optional raw HTML merged into `<head>` (meta, link, script, style). |
-| `isProtected`   | Stored in content and CMS; **not enforced** by the server today—all published routes are publicly reachable. |
-| `allowedEmails` | Stored for potential future access rules; **not enforced** today. |
+| `isProtected`   | When `true`, edge middleware requires a valid access cookie or Netlify Identity JWT whose email is listed in `allowedEmails` for that `urlPath`. |
+| `allowedEmails` | Addresses allowed to view that URL (required when `isProtected` is true). Matching is case-insensitive. |
+
+### Protected pages
+
+- On deploy, [`scripts/generate-protected-manifest.mjs`](scripts/generate-protected-manifest.mjs) writes [`src/generated/protected-pages.json`](src/generated/protected-pages.json). [`src/middleware.ts`](src/middleware.ts) uses it on Netlify Edge.
+- Visitors without a session are redirected to `/access?next=…`. Submitting an allowed email sets a signed HttpOnly cookie (`pbl_access`). Wrong or missing access yields **404** (not 403).
+- Optional Netlify Identity: set `IDENTITY_JWT_SECRET` and `PUBLIC_NETLIFY_IDENTITY_URL`; the `/access` page can load the Identity widget so users sign in with the same email as in `allowedEmails`.
 
 ### Environment variables
 
-The app **does not** read `import.meta.env` / `process.env` in `src/` for core behavior. You do **not** need a `.env` file on Netlify for standard deploy + Decap. Keep **OAuth secrets** in the Netlify UI only.
+| Variable | Required | Purpose |
+| -------- | -------- | ------- |
+| `ACCESS_COOKIE_SECRET` | **Yes** (for protected pages) | HMAC key for signing the `pbl_access` JWT. |
+| `IDENTITY_JWT_SECRET` | No | Site JWT secret from Netlify Identity (Settings → Identity → Services → JWT); enables `nf_jwt` in middleware. |
+| `PUBLIC_NETLIFY_IDENTITY_URL` | No | e.g. `https://your-site.netlify.app/.netlify/identity` for the widget on `/access`. |
+
+Copy [`.env.example`](.env.example) to `.env` for local dev. On Netlify, set `ACCESS_COOKIE_SECRET` (and optional Identity vars) in **Site configuration → Environment variables**. Decap GitHub OAuth remains configured only in the Netlify UI (no app env needed for the CMS backend itself).
 
 ---
 
