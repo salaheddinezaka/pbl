@@ -1,11 +1,26 @@
 ---
 name: new-page
-description: Create a new CMS draft page for the pbl-com Astro site and push it to Decap CMS via git. Use when the user says "new page", "create page", "add page", "publish page", "Lincx zone page", "preview page", or wants to add content to the site. Guides non-technical users through the process step by step.
+description: Create a new CMS draft page for the pbl-com Astro site and submit it as a pull request so it appears as a draft in Decap CMS editorial workflow. Use when the user says "new page", "create page", "add page", "draft page", "Lincx zone page", "preview page", or wants to add content to the site. Guides non-technical users through the process step by step.
 ---
 
 # New Page — Decap CMS Draft Creator
 
-Create a YAML page file in `src/content/pages/`, commit, and push so it appears instantly in Decap CMS at `/admin` ready for final review and publish.
+Create a YAML page file in `src/content/pages/`, push it on a dedicated branch, and open a pull request so it appears as a **draft** in Decap CMS's editorial workflow. The user then reviews and clicks "Publish" in the CMS admin when ready.
+
+## How It Works (Editorial Workflow)
+
+Decap CMS editorial workflow is enabled (`publish_mode: editorial_workflow` in `public/admin/config.yml`). Under this mode every PR targeting `main` that adds/edits content files shows up in the CMS admin under **Workflow → Drafts**. The lifecycle is:
+
+```
+Draft  →  In Review  →  Ready  →  Published (merged to main)
+```
+
+This skill creates the **Draft** step by:
+1. Creating a feature branch
+2. Committing the YAML page file
+3. Opening a PR to `main`
+
+The page then appears in Decap CMS at `/admin` under the **Workflow** tab as a draft entry. The user can preview, edit, move to "Ready", and publish — all from the CMS UI.
 
 ## Workflow Overview
 
@@ -13,8 +28,8 @@ Create a YAML page file in `src/content/pages/`, commit, and push so it appears 
 1. Ask: Lincx zone page or custom HTML page?
 2. Collect required fields (only the relevant ones)
 3. Generate the YAML file with correct filename
-4. Commit + push to main
-5. Confirm with link to Decap admin
+4. Create branch + commit + open PR
+5. Confirm with link to the PR and Decap admin
 ```
 
 ## Step 1 — Determine Page Type
@@ -139,42 +154,106 @@ Write the file to: `src/content/pages/{filename}`
 
 Use the Write tool. Do NOT use echo or bash for file creation.
 
-## Step 4 — Commit and Push
+## Step 4 — Create Branch, Commit, and Open PR
 
-After writing the file, run these git commands:
+This is the key difference from a direct-to-main workflow. The page is submitted as a **pull request** so Decap CMS treats it as a draft.
+
+### Branch Naming Convention
+
+Decap CMS editorial workflow uses this branch pattern:
+
+```
+cms/pages/{title-slug}
+```
+
+Where `{title-slug}` is the title lowercased, spaces replaced with hyphens, special characters removed.
+
+Generate the branch name:
+```bash
+# Example: title = "Zone: cc5x46"  →  branch = "cms/pages/zone-cc5x46"
+BRANCH="cms/pages/$(echo '{title}' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//')"
+```
+
+### Git Commands
+
+Run these commands in sequence:
 
 ```bash
 cd /path/to/pbl-com
+
+# 1. Make sure we're up to date with main
+git fetch origin main
+git checkout -b {branch} origin/main
+
+# 2. Write and commit the file
 git add src/content/pages/{filename}
 git commit -m "content: add page '{title}' at /{urlPath}"
-git push origin main
+
+# 3. Push the branch
+git push -u origin {branch}
+
+# 4. Switch back to main so the working tree is clean for next time
+git checkout main
+```
+
+### Open the Pull Request
+
+Use the `gh` CLI to create the PR:
+
+```bash
+gh pr create \
+  --base main \
+  --head {branch} \
+  --title "content: add page '{title}'" \
+  --body "$(cat <<'EOF'
+## New Page Draft
+
+| Field | Value |
+|-------|-------|
+| **Title** | {title} |
+| **URL Path** | `/{urlPath}` |
+| **Type** | {Lincx zone / Custom HTML} |
+| **Protected** | {Yes/No} |
+
+This page will appear as a **draft** in the Decap CMS Workflow tab.
+
+To publish: go to `/admin` → **Workflow** → find this entry → move to **Ready** → **Publish**.
+
+---
+*Created via new-page skill*
+EOF
+)"
 ```
 
 IMPORTANT:
 - Only `git add` the specific new file — never use `git add .`
 - Use a clear commit message prefixed with `content:`
-- Push to `main` (the branch configured in Decap CMS)
+- The PR must target `main` (the branch configured in Decap CMS)
+- If `gh` is not available, provide the user with the branch name and a link to create the PR manually on GitHub
 
 ## Step 5 — Confirm to the User
 
-After a successful push, tell the user:
+After a successful PR creation, tell the user:
 
-1. The page was created and pushed.
-2. It will be live after Netlify rebuilds (usually ~1 minute).
-3. They can review/edit it in Decap CMS admin.
-4. Show the URL path where the page will be accessible.
+1. The draft page was created and a PR was opened.
+2. It now appears in Decap CMS under the **Workflow** tab as a draft.
+3. They can preview, edit, and publish it entirely from the CMS UI.
+4. Share the PR URL.
 
 Example confirmation:
-> Your new page **"Zone: 7shme6"** has been created and pushed!
+> Your draft page **"Zone: cc5x46"** has been created!
 >
-> - **Site URL:** `/{urlPath}` (live after Netlify rebuilds, ~1 min)
-> - **Edit in CMS:** Go to `/admin` → Pages → find "{title}"
+> - **Pull request:** {PR_URL}
+> - **CMS draft:** Go to `/admin` → **Workflow** tab → find "Zone: cc5x46"
+> - **URL (after publish):** `/{urlPath}`
 >
-> The page is ready — you can review or tweak it in the CMS admin.
+> From the CMS you can preview it, make edits, and click **Publish** when ready. Publishing merges the PR and triggers a Netlify deploy automatically.
 
 ## Error Handling
 
 - **Git push fails:** Tell the user what happened. Suggest `git pull --rebase` then retry.
+- **Branch already exists:** Append a short random suffix (e.g. `-2`, `-a3b`) and retry.
+- **gh CLI not available:** Fall back to printing the branch name and a GitHub URL for manual PR creation: `https://github.com/salaheddinezaka/pbl/compare/main...{branch}`
 - **File already exists with same slug:** Generate a new random hash and retry.
 - **Invalid zone ID format:** Zone IDs are typically 6 alphanumeric chars. Warn but don't block.
 - **Missing fields:** Never write the file until all required fields are collected.

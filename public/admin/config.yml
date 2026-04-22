@@ -8,6 +8,8 @@ backend:
   repo: salaheddinezaka/pbl
   branch: main
 
+publish_mode: editorial_workflow
+
 local_backend: false
 
 media_folder: public/uploads
