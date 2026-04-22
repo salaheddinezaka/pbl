@@ -13,9 +13,10 @@ placeholders (`YOUR_ORG`, `YOUR_REPO`, production branch — usually
 5. Create the Netlify site from the GitHub repo.
 6. Set `ACCESS_COOKIE_SECRET` in Netlify env vars.
 7. Enable Netlify's GitHub OAuth provider with the OAuth App credentials.
-8. Edit `public/admin/config.yml` so `backend.repo` and `backend.branch` match.
-9. Verify first deploy, CMS login, CMS edit round-trip, protected pages.
-10. (Optional) custom domain.
+8. Enable Netlify Identity (invite-only), copy the JWT secret to `IDENTITY_JWT_SECRET`, and set `PUBLIC_NETLIFY_IDENTITY_URL`.
+9. Edit `public/admin/config.yml` so `backend.repo` and `backend.branch` match.
+10. Verify first deploy, `/admin` login (Identity → Decap), CMS edit round-trip, protected pages.
+11. (Optional) custom domain.
 
 ## 1. Prerequisites
 
@@ -95,11 +96,13 @@ Netlify → your site → **Site configuration** → **Environment variables**.
 | Variable | Required | Value | Scope |
 |---|---|---|---|
 | `ACCESS_COOKIE_SECRET` | **Yes** | the hex string from step 3 | All contexts |
-| `IDENTITY_JWT_SECRET` | No | Netlify Identity → Services → JWT | All contexts |
-| `PUBLIC_NETLIFY_IDENTITY_URL` | No | e.g. `https://YOUR-SITE.netlify.app/.netlify/identity` | All contexts |
+| `IDENTITY_JWT_SECRET` | **Yes** (for /admin) | Netlify Identity → Services → JWT (obtained in step 9) | All contexts |
+| `PUBLIC_NETLIFY_IDENTITY_URL` | **Yes** (for /admin) | e.g. `https://YOUR-SITE.netlify.app/.netlify/identity` | All contexts |
 
-Set the optional two only if you plan to use Netlify Identity alongside
-the email form gate on `/access`.
+The two Identity vars gate the Decap CMS UI at `/admin`. If unset,
+`/admin` redirects to `/admin-login` and shows a "not configured"
+notice. You'll paste their values after step 9 enables Identity and
+reveals the JWT secret.
 
 Trigger a redeploy after saving (**Deploys** → **Trigger deploy** →
 **Deploy site**).
@@ -114,7 +117,32 @@ Netlify → your site → **Site configuration** → **Access & security** →
    step 4.6.
 3. Save. Netlify stores the secret; it never enters the repo.
 
-## 9. Align Decap to the repo
+## 9. Enable Netlify Identity for admin access
+
+Netlify Identity gates who can reach the Decap CMS UI at `/admin`.
+Decap's own GitHub OAuth still governs who can actually commit
+changes — Identity is the outer door, Decap's GitHub sign-in is the
+inner one.
+
+1. Netlify → your site → **Site configuration** → **Identity** →
+   **Enable Identity**.
+2. **Registration preferences** → set to **Invite only**. Open
+   signup would let anyone with the site URL create an account.
+3. **Services** → **JWT** → copy the **Secret**. Paste it into the
+   `IDENTITY_JWT_SECRET` env var you added in step 7.
+4. Copy the Identity API URL — it is
+   `https://YOUR-SITE.netlify.app/.netlify/identity` (swap in your
+   Netlify-assigned URL or custom domain). Paste it into
+   `PUBLIC_NETLIFY_IDENTITY_URL` in step 7.
+5. **Invite admins** → Identity → **Invite users** → enter each
+   admin's email address. Invited users receive a confirmation
+   email and choose a password on first sign-in. For Decap to
+   actually save their edits, the same humans must also have
+   GitHub write access to `YOUR_ORG/YOUR_REPO`.
+6. Trigger a redeploy (**Deploys** → **Trigger deploy** → **Deploy
+   site**) so the two env vars take effect.
+
+## 10. Align Decap to the repo
 
 Edit `public/admin/config.yml`:
 
@@ -124,7 +152,7 @@ Edit `public/admin/config.yml`:
 Commit and push to the production branch. Netlify rebuilds
 automatically; wait for the deploy to go green.
 
-## 10. First-deploy verification
+## 11. First-deploy verification
 
 - Deploy log ends with **Build succeeded**.
 - `https://YOUR-SITE.netlify.app/` responds (home page loads, assuming
@@ -136,11 +164,13 @@ automatically; wait for the deploy to go green.
   `referrer-policy: strict-origin-when-cross-origin` (check with
   browser devtools or `curl -sI https://YOUR-SITE.netlify.app/`).
 
-## 11. CMS smoke test
+## 12. CMS smoke test
 
-1. Open `https://YOUR-SITE.netlify.app/admin`.
-2. Log in with GitHub when prompted. You must have write access to
-   `YOUR_ORG/YOUR_REPO`.
+1. Open `https://YOUR-SITE.netlify.app/admin`. You are redirected to
+   `/admin-login`. Sign in with the invited Netlify Identity
+   account. On success you land back on `/admin` and Decap loads.
+2. Log in with GitHub when Decap prompts. You must have write
+   access to `YOUR_ORG/YOUR_REPO` for Decap to save edits.
 3. Open the **Pages** collection; confirm existing entries load.
 4. Make a trivial edit (e.g. change a title), save.
 5. On GitHub, confirm a commit appears on the configured branch with
@@ -148,7 +178,7 @@ automatically; wait for the deploy to go green.
 6. Wait for Netlify rebuild, then reload the page on the live site and
    confirm the edit is visible.
 
-## 12. Protected-page smoke test
+## 13. Protected-page smoke test
 
 1. In `src/content/pages/`, pick (or create) a test page and set:
    - `isProtected: true`
@@ -164,7 +194,7 @@ automatically; wait for the deploy to go green.
 If any protected page returns 404 for every email, `ACCESS_COOKIE_SECRET`
 is likely missing or mis-set in Netlify env vars — see Troubleshooting.
 
-## 13. Custom domain (optional)
+## 14. Custom domain (optional)
 
 1. Netlify → **Domain management** → **Add custom domain**.
 2. Follow Netlify's DNS instructions (CNAME or Netlify DNS).
@@ -173,13 +203,13 @@ is likely missing or mis-set in Netlify env vars — see Troubleshooting.
 4. If the OAuth App's Homepage URL still points at the
    `*.netlify.app` URL, update it to the custom domain.
 
-## 14. Rollback
+## 15. Rollback
 
 Netlify → **Deploys** → pick a previous green deploy → **Publish
 deploy**. The published version becomes live within seconds. No code
 changes or git operations required.
 
-## 15. Troubleshooting
+## 16. Troubleshooting
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
@@ -189,8 +219,10 @@ changes or git operations required.
 | Every protected page returns 404, even with allowed email. | `ACCESS_COOKIE_SECRET` missing on Netlify. | Re-check env vars under **All contexts**; trigger a redeploy after adding. |
 | Edits don't appear after a successful deploy. | HTML cached upstream, or wrong `backend.branch`. | Confirm `Cache-Control: public, max-age=0, must-revalidate` on the HTML response. Confirm `public/admin/config.yml` `backend.branch` matches the production branch. |
 | Editor re-uploaded a filename but old image still shows. | `/uploads/*` is `immutable` in `netlify.toml`. | Netlify → **Deploys** → **Trigger deploy** → **Clear cache and deploy site**. Recommend editors upload new filenames instead. |
+| `/admin` redirects to `/admin-login` in a loop. | `IDENTITY_JWT_SECRET` is missing, or its value doesn't match Netlify Identity → Services → JWT. | Re-copy the secret from the Netlify UI into env vars under **All contexts**. Trigger a redeploy. Clear cookies and retry. |
+| `/admin-login` shows "Netlify Identity not configured". | `PUBLIC_NETLIFY_IDENTITY_URL` is missing or wrong. | Paste `https://YOUR-SITE.netlify.app/.netlify/identity` (with your real site URL). Redeploy so the `PUBLIC_*` value reaches the client bundle. |
 
-## 16. Post-launch checklist
+## 17. Post-launch checklist
 
 Tick once everything above is green.
 
@@ -209,6 +241,10 @@ Tick once everything above is green.
 - [ ] GitHub OAuth App created with callback **exactly**
       `https://api.netlify.com/auth/done`.
 - [ ] Netlify GitHub OAuth provider enabled with Client ID + secret.
+- [ ] Netlify Identity enabled, registration set to **Invite only**,
+      at least one admin invited and confirmed.
+- [ ] `IDENTITY_JWT_SECRET` and `PUBLIC_NETLIFY_IDENTITY_URL` set in
+      Netlify env vars under **All contexts**.
 - [ ] Every editor has GitHub write access to the content repo (or the
       branch-protection workflow supports Decap's commit style).
 - [ ] Reviewer/merger is assigned for protected branches, if any.
