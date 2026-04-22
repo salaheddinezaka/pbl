@@ -8,6 +8,7 @@ import {
 import { normalizePath } from "./lib/cms-pages";
 
 const ACCESS_COOKIE = "pbl_access";
+const IDENTITY_COOKIE = "nf_jwt";
 
 type ProtectedManifest = Record<string, { allowedEmails: string[] }>;
 
@@ -69,7 +70,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
     const identitySecret = import.meta.env.IDENTITY_JWT_SECRET as
       | string
       | undefined;
-    const nfJwt = context.cookies.get("nf_jwt")?.value;
+    const nfJwt = context.cookies.get(IDENTITY_COOKIE)?.value;
     const email =
       identitySecret && nfJwt
         ? await verifyIdentityEmail(nfJwt, identitySecret)
@@ -98,7 +99,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
     | undefined;
 
   const accessToken = context.cookies.get(ACCESS_COOKIE)?.value;
-  const nfJwt = context.cookies.get("nf_jwt")?.value;
+  const nfJwt = context.cookies.get(IDENTITY_COOKIE)?.value;
 
   const email = await resolveVisitorEmail(
     accessToken,

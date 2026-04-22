@@ -4,7 +4,11 @@ import { safeNextPath } from "../lib/access-gate";
 export const prerender = false;
 
 const rawNext = Astro.url.searchParams.get("next");
-const nextPath = safeNextPath(rawNext, Astro.url.origin) ?? "/admin";
+const sanitizedNext = safeNextPath(rawNext, Astro.url.origin) ?? "/admin";
+const nextPath =
+  sanitizedNext === "/admin" || sanitizedNext.startsWith("/admin/")
+    ? sanitizedNext
+    : "/admin";
 
 const identityUrl = import.meta.env.PUBLIC_NETLIFY_IDENTITY_URL ?? "";
 const configured = identityUrl.length > 0;
