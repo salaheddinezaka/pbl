@@ -96,13 +96,17 @@ Netlify → your site → **Site configuration** → **Environment variables**.
 | Variable | Required | Value | Scope |
 |---|---|---|---|
 | `ACCESS_COOKIE_SECRET` | **Yes** | the hex string from step 3 | All contexts |
-| `IDENTITY_JWT_SECRET` | **Yes** (for /admin) | Netlify Identity → Services → JWT (obtained in step 9) | All contexts |
-| `PUBLIC_NETLIFY_IDENTITY_URL` | **Yes** (for /admin) | e.g. `https://YOUR-SITE.netlify.app/.netlify/identity` | All contexts |
+| `IDENTITY_JWT_SECRET` | **Yes** (for /admin) | *set in step 9 — leave blank or placeholder for now* | All contexts |
+| `PUBLIC_NETLIFY_IDENTITY_URL` | **Yes** (for /admin) | *set in step 9 — e.g. `https://YOUR-SITE.netlify.app/.netlify/identity`* | All contexts |
 
-The two Identity vars gate the Decap CMS UI at `/admin`. If unset,
-`/admin` redirects to `/admin-login` and shows a "not configured"
-notice. You'll paste their values after step 9 enables Identity and
-reveals the JWT secret.
+The two Identity vars gate the Decap CMS UI at `/admin`. You create
+them now (any placeholder value is fine) and fill them in during
+step 9 once Netlify Identity is enabled and the JWT secret is
+revealed. The `PUBLIC_` prefix on the second variable is required —
+Astro exposes only `PUBLIC_*` values to the client bundle, where the
+Netlify Identity widget reads the API URL. If you rename it, the
+widget cannot initialize. If the vars are left unset, `/admin`
+redirects to `/admin-login` and shows a "not configured" notice.
 
 Trigger a redeploy after saving (**Deploys** → **Trigger deploy** →
 **Deploy site**).
@@ -128,12 +132,15 @@ inner one.
    **Enable Identity**.
 2. **Registration preferences** → set to **Invite only**. Open
    signup would let anyone with the site URL create an account.
-3. **Services** → **JWT** → copy the **Secret**. Paste it into the
-   `IDENTITY_JWT_SECRET` env var you added in step 7.
+3. **Services** → **JWT** → copy the **Secret**. Return to
+   **Site configuration** → **Environment variables**, open the
+   `IDENTITY_JWT_SECRET` entry created in step 7, and paste the
+   secret as its value. Save.
 4. Copy the Identity API URL — it is
-   `https://YOUR-SITE.netlify.app/.netlify/identity` (swap in your
-   Netlify-assigned URL or custom domain). Paste it into
-   `PUBLIC_NETLIFY_IDENTITY_URL` in step 7.
+   `https://YOUR-SITE.netlify.app/.netlify/identity` (replace
+   `YOUR-SITE` with your real Netlify or custom domain). Return to
+   **Environment variables** and paste it as the value of
+   `PUBLIC_NETLIFY_IDENTITY_URL`. Save.
 5. **Invite admins** → Identity → **Invite users** → enter each
    admin's email address. Invited users receive a confirmation
    email and choose a password on first sign-in. For Decap to
