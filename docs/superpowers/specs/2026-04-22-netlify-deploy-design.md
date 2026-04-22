@@ -226,11 +226,11 @@ Replace the existing "Go live on Netlify (quick path)" section
 First-time launch and operational steps live in [`deploy.md`](deploy.md).
 ```
 
-Everything after that section (architecture, routing, content model,
-protected pages, environment variables, local development, useful
-links) stays as-is. The existing "Checklists for handoff" block is
-absorbed into `deploy.md` step 16 and removed from the README to avoid
-drift between the two documents.
+The "Checklists for handoff" block that follows is also removed — its
+content is absorbed into `deploy.md` step 16 so the two documents
+don't drift. Everything after that (architecture, routing, content
+model, protected pages, environment variables, local development,
+useful links) stays as-is.
 
 ## File layout
 
