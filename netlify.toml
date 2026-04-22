@@ -1,17 +1,31 @@
-# Protected routes: set ACCESS_COOKIE_SECRET in Netlify env (see README).
-# Optional: IDENTITY_JWT_SECRET + PUBLIC_NETLIFY_IDENTITY_URL for Netlify Identity.
+# Astro SSR on Netlify via @astrojs/netlify (middleware edge mode).
+# Publish dir and functions are managed by the adapter — do NOT set [build] publish.
 #
-# Decap GitHub backend: in Netlify → Site configuration → Access & security → OAuth,
-# enable the GitHub provider (Client ID + secret from a GitHub OAuth App:
-# callback URL https://api.netlify.com/auth/done). See https://decapcms.org/docs/github-backend/
-# Astro SSR: use framework defaults for publish/output; do not force static-only publish roots.
+# Secrets (ACCESS_COOKIE_SECRET, IDENTITY_JWT_SECRET) live in Netlify env vars, not here.
+# Decap GitHub OAuth is configured in Netlify UI → Site configuration → Access & security → OAuth.
+# See deploy.md for the full procedure.
 
 [build]
   command = "npm run build"
 
 [build.environment]
-  # Matches package.json engines (>=22.12.0)
-  NODE_VERSION = "22"
+  NODE_VERSION = "22.12.0"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+# --- Deploy contexts -------------------------------------------------------
+# Secrets are set per-context in the Netlify UI. Non-secret context hints go here.
+
+[context.production.environment]
+  NODE_ENV = "production"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "production"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "production"
+
+# --- Redirects -------------------------------------------------------------
+# Legacy Keystatic URLs → Decap.
 
 [[redirects]]
   from = "/keystatic"
@@ -22,3 +36,46 @@
   from = "/keystatic/*"
   to = "/admin"
   status = 301
+
+# --- Security headers ------------------------------------------------------
+# Applied to every response; specific paths override below.
+# No CSP: htmlContent/headHtml fields allow editor-authored inline scripts.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+# Decap CMS needs to frame its own preview iframe; relax framing for /admin.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+
+# --- Cache headers ---------------------------------------------------------
+# Astro emits hashed filenames under /_astro/*; safe to mark immutable.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Decap uploads are static assets referenced by hash-stable paths in content.
+[[headers]]
+  for = "/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# SSR HTML must reflect the latest YAML on every request.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
