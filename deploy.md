@@ -13,9 +13,9 @@ placeholders (`YOUR_ORG`, `YOUR_REPO`, production branch — usually
 5. Create the Netlify site from the GitHub repo.
 6. Set `ACCESS_COOKIE_SECRET` in Netlify env vars.
 7. Enable Netlify's GitHub OAuth provider with the OAuth App credentials.
-8. Enable Netlify Identity (invite-only), copy the JWT secret to `IDENTITY_JWT_SECRET`, and set `PUBLIC_NETLIFY_IDENTITY_URL`.
-9. Edit `public/admin/config.yml` so `backend.repo` and `backend.branch` match.
-10. Verify first deploy, `/admin` login (Identity → Decap), CMS edit round-trip, protected pages.
+8. Enable Netlify Identity (invite-only) and Git Gateway; invite admins.
+9. Edit `public/admin/config.yml` so the backend matches (see step 10).
+10. Verify first deploy, CMS login via Decap, CMS edit round-trip, protected pages.
 11. (Optional) custom domain.
 
 ## 1. Prerequisites
@@ -96,17 +96,15 @@ Netlify → your site → **Site configuration** → **Environment variables**.
 | Variable | Required | Value | Scope |
 |---|---|---|---|
 | `ACCESS_COOKIE_SECRET` | **Yes** | the hex string from step 3 | All contexts |
-| `IDENTITY_JWT_SECRET` | **Yes** (for /admin) | *set in step 9 — leave blank or placeholder for now* | All contexts |
-| `PUBLIC_NETLIFY_IDENTITY_URL` | **Yes** (for /admin) | *set in step 9 — e.g. `https://YOUR-SITE.netlify.app/.netlify/identity`* | All contexts |
+| `IDENTITY_JWT_SECRET` | No (optional) | legacy HS256 shared secret; needed only if you layer Identity on top of the content-page email gate | All contexts |
+| `PUBLIC_NETLIFY_IDENTITY_URL` | No (optional) | Identity API URL for the widget on `/access`; e.g. `https://YOUR-SITE.netlify.app/.netlify/identity` | All contexts |
 
-The two Identity vars gate the Decap CMS UI at `/admin`. You create
-them now (any placeholder value is fine) and fill them in during
-step 9 once Netlify Identity is enabled and the JWT secret is
-revealed. The `PUBLIC_` prefix on the second variable is required —
-Astro exposes only `PUBLIC_*` values to the client bundle, where the
-Netlify Identity widget reads the API URL. If you rename it, the
-widget cannot initialize. If the vars are left unset, `/admin`
-redirects to `/admin-login` and shows a "not configured" notice.
+Only `ACCESS_COOKIE_SECRET` is strictly required. The two Identity
+vars are optional: they only affect the content-page email gate at
+`/access`, letting it accept a signed-in Identity user as an alternative
+to the email form. Admin access to `/admin` is handled entirely by
+Decap + Netlify Identity + Git Gateway (see step 9) — no env vars on
+our side.
 
 Trigger a redeploy after saving (**Deploys** → **Trigger deploy** →
 **Deploy site**).
@@ -121,43 +119,66 @@ Netlify → your site → **Site configuration** → **Access & security** →
    step 4.6.
 3. Save. Netlify stores the secret; it never enters the repo.
 
-## 9. Enable Netlify Identity for admin access
+## 9. Enable Netlify Identity + Git Gateway for CMS access
 
-Netlify Identity gates who can reach the Decap CMS UI at `/admin`.
-Decap's own GitHub OAuth still governs who can actually commit
-changes — Identity is the outer door, Decap's GitHub sign-in is the
-inner one.
+On the free Netlify plan, the cleanest way to secure the Decap CMS
+without giving every editor direct GitHub write access is **Identity
++ Git Gateway**. Identity controls who may sign in to Decap; Git
+Gateway lets Decap commit content on editors' behalf using a single
+site-level GitHub token, so editors don't need individual GitHub
+access to the content repo.
 
-1. Netlify → your site → **Site configuration** → **Identity** →
+This supersedes the "GitHub OAuth per editor" path in §§ 4 and 8 for
+teams that don't want to add every editor to the repo. You can keep
+§§ 4/8 configured as a fallback or skip them if you'll rely entirely
+on Git Gateway.
+
+1. Netlify → your site → **Project configuration** → **Identity** →
    **Enable Identity**.
-2. **Registration preferences** → set to **Invite only**. Open
-   signup would let anyone with the site URL create an account.
-3. **Services** → **JWT** → copy the **Secret**. Return to
-   **Site configuration** → **Environment variables**, open the
-   `IDENTITY_JWT_SECRET` entry created in step 7, and paste the
-   secret as its value. Save.
-4. Copy the Identity API URL — it is
-   `https://YOUR-SITE.netlify.app/.netlify/identity` (replace
-   `YOUR-SITE` with your real Netlify or custom domain). Return to
-   **Environment variables** and paste it as the value of
-   `PUBLIC_NETLIFY_IDENTITY_URL`. Save.
-5. **Invite admins** → Identity → **Invite users** → enter each
-   admin's email address. Invited users receive a confirmation
-   email and choose a password on first sign-in. For Decap to
-   actually save their edits, the same humans must also have
-   GitHub write access to `YOUR_ORG/YOUR_REPO`.
-6. Trigger a redeploy (**Deploys** → **Trigger deploy** → **Deploy
-   site**) so the two env vars take effect.
+2. **Registration preferences** → set to **Invite only**. Open signup
+   would let anyone with the site URL create an account.
+3. **Services** → **Git Gateway** → **Enable Git Gateway**. Netlify
+   prompts you to authorize a GitHub access token; grant repo scope
+   on the content repository. Git Gateway stores the token
+   server-side; editors never see it.
+4. **Invite admins** → Identity → **Invite users** → enter each
+   admin's email address. Invited users receive a confirmation email
+   and choose a password on first sign-in.
+5. Confirm each admin accepts the invite — they must click the email
+   link and finish setting a password before they can reach the CMS.
+6. (Skip if you already set `config.yml` in step 10.) Ensure
+   `public/admin/config.yml` uses `backend: { name: git-gateway,
+   branch: <production branch> }` — see step 10.
+
+No env vars are required on the app side for this path; Identity and
+Git Gateway are configured entirely in the Netlify UI. An unauthenticated
+visitor can still load the `/admin` page skeleton but cannot read or
+save any content without signing in via Decap's own Identity prompt.
 
 ## 10. Align Decap to the repo
 
-Edit `public/admin/config.yml`:
+Edit `public/admin/config.yml`. Pick the `backend` that matches the
+auth model you enabled:
 
-- `backend.repo: YOUR_ORG/YOUR_REPO`
-- `backend.branch: <production branch>` (match step 5.3)
+- **Git Gateway path (recommended, step 9):**
+  ```yaml
+  backend:
+    name: git-gateway
+    branch: <production branch>
+  ```
+  No `repo` field needed — Git Gateway already knows which repo it
+  was authorized on.
 
-Commit and push to the production branch. Netlify rebuilds
-automatically; wait for the deploy to go green.
+- **GitHub OAuth path (steps 4 + 8):**
+  ```yaml
+  backend:
+    name: github
+    repo: YOUR_ORG/YOUR_REPO
+    branch: <production branch>
+  ```
+
+Pick one. Don't set both. Commit and push to the production branch.
+Netlify rebuilds automatically; wait for the deploy to go green.
 
 ## 11. First-deploy verification
 
@@ -173,11 +194,10 @@ automatically; wait for the deploy to go green.
 
 ## 12. CMS smoke test
 
-1. Open `https://YOUR-SITE.netlify.app/admin`. You are redirected to
-   `/admin-login`. Sign in with the invited Netlify Identity
-   account. On success you land back on `/admin` and Decap loads.
-2. Log in with GitHub when Decap prompts. You must have write
-   access to `YOUR_ORG/YOUR_REPO` for Decap to save edits.
+1. Open `https://YOUR-SITE.netlify.app/admin`. Decap loads.
+2. Decap prompts for a login. Sign in with the invited Netlify
+   Identity account (Git Gateway path) or with GitHub (OAuth path).
+   Collections load only after a successful login.
 3. Open the **Pages** collection; confirm existing entries load.
 4. Make a trivial edit (e.g. change a title), save.
 5. On GitHub, confirm a commit appears on the configured branch with
@@ -226,8 +246,8 @@ changes or git operations required.
 | Every protected page returns 404, even with allowed email. | `ACCESS_COOKIE_SECRET` missing on Netlify. | Re-check env vars under **All contexts**; trigger a redeploy after adding. |
 | Edits don't appear after a successful deploy. | HTML cached upstream, or wrong `backend.branch`. | Confirm `Cache-Control: public, max-age=0, must-revalidate` on the HTML response. Confirm `public/admin/config.yml` `backend.branch` matches the production branch. |
 | Editor re-uploaded a filename but old image still shows. | `/uploads/*` is `immutable` in `netlify.toml`. | Netlify → **Deploys** → **Trigger deploy** → **Clear cache and deploy site**. Recommend editors upload new filenames instead. |
-| `/admin` redirects to `/admin-login` in a loop. | `IDENTITY_JWT_SECRET` is missing, or its value doesn't match Netlify Identity → Services → JWT. | Re-copy the secret from the Netlify UI into env vars under **All contexts**. Trigger a redeploy. Clear cookies and retry. |
-| `/admin-login` shows "Netlify Identity not configured". | `PUBLIC_NETLIFY_IDENTITY_URL` is missing or wrong. | Paste `https://YOUR-SITE.netlify.app/.netlify/identity` (with your real site URL). Redeploy so the `PUBLIC_*` value reaches the client bundle. |
+| Decap loads but shows "failed to load entries" or a repo-access error on login. | `config.yml` backend doesn't match what's enabled on Netlify: `git-gateway` requires Git Gateway enabled (step 9); `github` requires the OAuth provider enabled (step 8). | Pick one model, enable the matching Netlify feature, and align `public/admin/config.yml` per step 10. |
+| Identity invite email never arrives. | Sent to spam, or Identity's sender domain is blocked. | Resend from Netlify → Identity → Users → the user → resend invite. Check spam. If still blocked, test with a different email domain. |
 
 ## 17. Post-launch checklist
 
@@ -245,20 +265,21 @@ Tick once everything above is green.
       folder may be created on first upload).
 
 ### CMS and access
-- [ ] GitHub OAuth App created with callback **exactly**
-      `https://api.netlify.com/auth/done`.
-- [ ] Netlify GitHub OAuth provider enabled with Client ID + secret.
 - [ ] Netlify Identity enabled, registration set to **Invite only**,
-      at least one admin invited and confirmed.
-- [ ] `IDENTITY_JWT_SECRET` and `PUBLIC_NETLIFY_IDENTITY_URL` set in
-      Netlify env vars under **All contexts**.
-- [ ] Every editor has GitHub write access to the content repo (or the
-      branch-protection workflow supports Decap's commit style).
+      at least one admin invited and confirmed (password set).
+- [ ] **Git Gateway path:** Git Gateway enabled on Netlify with a
+      repo-scoped GitHub access token; `public/admin/config.yml`
+      uses `backend.name: git-gateway`. *— OR —*
+      **GitHub OAuth path:** OAuth App created with callback exactly
+      `https://api.netlify.com/auth/done`; Netlify GitHub provider
+      enabled with Client ID + secret; every editor has GitHub write
+      access to the content repo; `public/admin/config.yml` uses
+      `backend.name: github`.
 - [ ] Reviewer/merger is assigned for protected branches, if any.
 
 ### Production hardening
 - [ ] `ACCESS_COOKIE_SECRET` set in Netlify env vars (required for
-      protected pages).
+      protected content pages).
 - [ ] Response headers verified in production: `strict-transport-security`,
       `x-frame-options: DENY` on non-`/admin` routes, `x-frame-options: SAMEORIGIN`
       on `/admin`.
