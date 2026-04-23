@@ -1,11 +1,10 @@
 # Decap CMS — no secrets here.
-# Production: enable GitHub in Netlify → Site configuration → Access & security → OAuth,
-# with a GitHub OAuth App whose callback is https://api.netlify.com/auth/done
-# (see https://decapcms.org/docs/github-backend/ and Netlify “GitHub” provider setup).
+# Production: Netlify Identity + Git Gateway. Enable both in
+# Netlify → Project configuration → Identity, then invite admins.
+# See deploy.md § 9 for the full procedure.
 # Local: temporarily set local_backend: true under `backend` below (do not commit).
 backend:
-  name: github
-  repo: salaheddinezaka/pbl
+  name: git-gateway
   branch: main
 
 publish_mode: editorial_workflow
