@@ -22,7 +22,7 @@ function getProtectedEntry(
 
 function skipMiddleware(pathname: string): boolean {
   if (pathname.startsWith("/_astro")) return true;
-  if (pathname === "/admin-login" || pathname.startsWith("/admin-login/")) return true;
+  if (pathname.startsWith("/admin")) return true;
   if (pathname.startsWith("/access")) return true;
   if (pathname.startsWith("/api/")) return true;
   if (pathname.startsWith("/uploads")) return true;
@@ -63,25 +63,6 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const pathname = context.url.pathname;
 
   if (skipMiddleware(pathname)) {
-    return next();
-  }
-
-  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-    const identitySecret = import.meta.env.IDENTITY_JWT_SECRET as
-      | string
-      | undefined;
-    const nfJwt = context.cookies.get(IDENTITY_COOKIE)?.value;
-    const email =
-      identitySecret && nfJwt
-        ? await verifyIdentityEmail(nfJwt, identitySecret)
-        : null;
-    if (!email) {
-      const returnTo = pathname + context.url.search;
-      return context.redirect(
-        `/admin-login?next=${encodeURIComponent(returnTo)}`,
-        302
-      );
-    }
     return next();
   }
 
